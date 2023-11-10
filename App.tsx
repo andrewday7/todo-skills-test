@@ -1,13 +1,26 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { persistor, store } from './store';
+import { PersistGate } from 'redux-persist/integration/react';
+import TodoApp from './src/screens/TodoApp/TodoApp';
+import { Provider } from 'react-redux';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { NavigationContainer } from '@react-navigation/native';
+import Navigation from './src/navigation/navigation';
 
 export default function App() {
+  // persistor.purge();
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <Navigation />
+          </PersistGate>
+        </Provider>
+      </NavigationContainer>
+    </SafeAreaProvider>
+  )
 }
 
 const styles = StyleSheet.create({
